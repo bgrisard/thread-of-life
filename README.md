@@ -20,6 +20,13 @@ After changing `src/App.jsx`, regenerate it:
 python3 scripts/build-site.py
 ```
 
+The script precompiles the JSX with esbuild rather than letting Babel do it in
+the browser. That is deliberate: Babel's in-browser React preset defaults to the
+automatic JSX runtime, which emits `import { jsx } from "react/jsx-runtime"` —
+an import statement inside a classic `<script>`, which browsers reject. The
+result is a page that loads and renders nothing. The build fails loudly if any
+module-only syntax survives.
+
 ## Run it locally
 
 ```bash
