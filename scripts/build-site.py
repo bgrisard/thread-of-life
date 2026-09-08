@@ -67,6 +67,9 @@ html = f'''<!doctype html>
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="description" content="An endless, traceable thread through Scripture." />
 <title>thread of life</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Spectral:wght@400;600&display=swap" rel="stylesheet" />
 <style>html,body,#root{{height:100%;margin:0;background:#F1F1F3;overscroll-behavior:none}}</style>
 <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>

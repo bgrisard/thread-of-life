@@ -69,6 +69,10 @@ async function rawJSON(url) {
 const LIB = { index: null, verses: {}, xrefs: {}, pending: {} };
 const DATA = "./data";
 
+/* Verse count of the Protestant canon. The BSB prints sixteen disputed verses
+   as omitted, so the shipped text holds 31,086 of these. */
+const BIBLE_VERSES = 31102;
+
 const bkey = (r) => `${r.book}.${r.chapter}.${r.verse}`;
 const vkey = (r) => `${r.chapter}.${r.verse}`;
 
@@ -516,6 +520,9 @@ async function storeSet(key, value) {
    STYLES
    ============================================================ */
 
+const FONTS =
+  "@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Spectral:wght@400;600&display=swap');";
+
 const CSS = `
 .cr *, .cr *::before, .cr *::after { box-sizing: border-box; }
 .cr {
@@ -527,7 +534,8 @@ const CSS = `
   --rule: #E3E1DA;
   --stage: #9B2C1E;
   --wash: #FBF2F0;
-  --serif: 'Iowan Old Style','Palatino Linotype',Palatino,'Book Antiqua',Georgia,serif;
+  --serif: 'Spectral','Iowan Old Style','Palatino Linotype',Palatino,'Book Antiqua',Georgia,serif;
+  --display: 'Fraunces','Spectral','Iowan Old Style',Palatino,Georgia,serif;
   --sans: ui-sans-serif,-apple-system,'SF Pro Text','Segoe UI',Roboto,sans-serif;
   --mono: ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;
   position: fixed; inset: 0; background: var(--paper); color: var(--ink);
@@ -537,7 +545,7 @@ const CSS = `
 
 /* ---- app chrome ---- */
 .cr-top { flex: 0 0 auto; display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: var(--ink); color: #fff; }
-.cr-wordmark { font-family: var(--serif); font-size: 18px; }
+.cr-wordmark { font-family: var(--display); font-size: 19px; font-weight: 600; letter-spacing: -.01em; }
 .cr-spacer { flex: 1; }
 .cr-tp { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; padding: 6px 11px; border-radius: 999px; border: 1px solid rgba(255,255,255,.26); background: transparent; color: #fff; cursor: pointer; }
 
@@ -550,6 +558,18 @@ const CSS = `
    the gutter. Reaching the bottom of a card releases the outer scroll,
    so the same gesture carries you on to the next verse.
    ------------------------------------------------------------------ */
+/* ---- slim progress strip above the feed ---- */
+.cr-progress { flex: 0 0 auto; width: 100%; border: 0; border-bottom: 1px solid var(--rule); background: var(--card); padding: 10px 14px 11px; cursor: pointer; text-align: left; }
+.cr-progress-row { display: flex; align-items: baseline; gap: 12px; }
+.cr-pstat { display: flex; align-items: baseline; gap: 5px; }
+.cr-pstat b { font-family: var(--sans) !important; font-size: 19px; font-weight: 700; line-height: 1; letter-spacing: -.02em; }
+.cr-pstat span { font-family: var(--sans) !important; font-size: 9.5px; letter-spacing: .13em; text-transform: uppercase; color: var(--faint); }
+.cr-pct { margin-left: auto; font-family: var(--sans) !important; font-size: 14px; font-weight: 700; color: #8A6516; white-space: nowrap; letter-spacing: -.01em; text-align: right; }
+.cr-pct em { font-style: normal; font-weight: 500; font-size: 9px; letter-spacing: .11em; text-transform: uppercase; color: var(--faint); display: block; margin-top: 2px; }
+.cr-plabel { font-family: var(--sans) !important; font-size: 9.5px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--faint); flex: 0 0 auto; }
+.cr-progress-bar { display: block; height: 7px; border-radius: 4px; background: #E8E6E0; overflow: hidden; margin-top: 9px; }
+.cr-progress-fill { display: block; height: 100%; border-radius: 4px; background: linear-gradient(90deg, #9B2C1E, #8A6516); transition: width .4s ease; }
+
 .cr-feed { flex: 1; overflow-y: auto; scroll-snap-type: y mandatory; overscroll-behavior-y: contain; -webkit-overflow-scrolling: touch; }
 .cr-cardwrap { height: 100%; scroll-snap-align: start; scroll-snap-stop: always; padding: 6px 12px 12px; }
 .cr-card {
@@ -568,12 +588,12 @@ const CSS = `
 /* the inner scroller — one step per screen */
 .cr-pages { flex: 1 1 auto; min-height: 0; overflow-y: auto; scroll-snap-type: y mandatory; overscroll-behavior-y: auto; -webkit-overflow-scrolling: touch; }
 .cr-page { position: relative; min-height: 100%; scroll-snap-align: start; scroll-snap-stop: always; display: flex; padding: 0 16px 0 0; }
-.cr-rail { position: absolute; left: 21px; top: 0; bottom: 0; width: 2px; background: var(--stage); opacity: .28; }
-.cr-page[data-first="true"] .cr-rail { top: 30px; }
-.cr-page[data-last="true"] .cr-rail { bottom: auto; height: 30px; }
-.cr-node { position: absolute; left: 16px; top: 24px; width: 12px; height: 12px; border-radius: 50%; background: var(--stage); box-shadow: 0 0 0 4px var(--card); z-index: 2; }
-.cr-page-inner { flex: 1; min-width: 0; margin-left: 44px; padding: 16px 0 26px; display: flex; flex-direction: column; }
-.cr-now { font-family: var(--serif); font-size: 23px; line-height: 1.22; }
+.cr-rail { position: absolute; left: 20px; top: 0; bottom: 0; width: 5px; border-radius: 3px; background: var(--stage); opacity: .3; }
+.cr-page[data-first="true"] .cr-rail { top: 28px; }
+.cr-page[data-last="true"] .cr-rail { bottom: auto; height: 28px; }
+.cr-node { position: absolute; left: 14px; top: 22px; width: 17px; height: 17px; border-radius: 50%; background: var(--stage); box-shadow: 0 0 0 5px var(--card); z-index: 2; }
+.cr-page-inner { flex: 1; min-width: 0; margin-left: 48px; padding: 16px 0 26px; display: flex; flex-direction: column; }
+.cr-now { font-family: var(--display); font-size: 23px; font-weight: 600; line-height: 1.22; letter-spacing: -.01em; }
 .cr-ctx { font-family: var(--sans) !important; font-size: 11.5px; line-height: 1.45; color: var(--soft); margin-top: 5px; padding-bottom: 14px; }
 .cr-ctx b { color: var(--stage); font-weight: 500; }
 .cr-page-body { flex: 1 1 auto; }
@@ -587,7 +607,7 @@ const CSS = `
   transition: background .25s ease;
 }
 .cr-title-kicker { font-family: var(--sans) !important; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--stage); opacity: .9; flex: 0 0 auto; }
-.cr-title-ref { font-family: var(--serif); font-size: 18px; line-height: 1.2; color: var(--ink); flex: 1; min-width: 0; }
+.cr-title-ref { font-family: var(--display); font-weight: 600; font-size: 18px; line-height: 1.2; color: var(--ink); flex: 1; min-width: 0; }
 .cr-title-step { font-family: var(--mono) !important; font-size: 10px; color: var(--faint); flex: 0 0 auto; }
 
 /* ---- ONE type size for every word of content. Only red letters differ. ---- */
@@ -644,7 +664,7 @@ const CSS = `
 
 /* ---- panes ---- */
 .cr-pane { flex: 1; overflow-y: auto; padding: 20px 18px 36px; }
-.cr-h1 { font-family: var(--serif); font-size: 25px; margin: 0 0 4px; }
+.cr-h1 { font-family: var(--display); font-size: 26px; font-weight: 600; margin: 0 0 4px; letter-spacing: -.01em; }
 .cr-sub { font-size: 13px; color: var(--soft); margin: 0 0 20px; line-height: 1.55; }
 .cr-h2 { font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--faint); margin: 22px 0 9px; }
 .cr-tile { background: var(--card); border-radius: 12px; padding: 13px 14px; margin-bottom: 8px; }
@@ -655,7 +675,7 @@ const CSS = `
 .cr-badge { display: inline-block; font-family: var(--mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; border-radius: 3px; padding: 2px 6px; margin-top: 8px; }
 .cr-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 18px; }
 .cr-statbox { background: var(--card); border-radius: 12px; padding: 12px 10px; text-align: center; }
-.cr-statbox b { display: block; font-family: var(--serif); font-size: 24px; font-weight: 400; }
+.cr-statbox b { display: block; font-family: var(--display); font-size: 26px; font-weight: 600; }
 .cr-statbox span { font-family: var(--mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); }
 .cr-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(60px,1fr)); gap: 6px; }
 .cr-grid button { font-family: var(--mono); font-size: 12px; padding: 9px 4px; border-radius: 6px; border: 1px solid var(--rule); background: var(--card); cursor: pointer; color: var(--ink); }
@@ -1069,12 +1089,12 @@ function Card({ card, first, translation, onFollow, onOpenChapter, onAsk, onSave
   const onScroll = (e) => {
     const el = e.currentTarget;
     const n = Math.round(el.scrollTop / Math.max(1, el.clientHeight));
-    setActive((cur) => {
-      if (cur === n) return cur;
-      if (n >= steps.length - 1) onStepDone?.(card);
-      return n;
-    });
+    setActive((cur) => (cur === n ? cur : n));
   };
+
+  useEffect(() => {
+    if (active >= steps.length - 1) onStepDone?.(card);
+  }, [active, steps.length, card.id]);
 
   return (
     <div className="cr-cardwrap" ref={wrap}>
@@ -1576,8 +1596,16 @@ export default function CrossReference() {
     setTimeout(() => startThread(anchor), 0);
   };
 
+  // A bar this thin needs a floor to be visible at all; 31,086 verses means
+  // real progress is a fraction of a percent for a long time.
+  const pctRead = (read.length / BIBLE_VERSES) * 100;
+  const chaptersRead = new Set(read.map((r) => r.key.split(".").slice(0, 2).join("."))).size;
+  const booksRead = new Set(read.map((r) => r.key.split(".")[0])).size;
+  const pctLabel = pctRead === 0 ? "0%" : pctRead < 0.01 ? "<0.01%" : pctRead < 1 ? pctRead.toFixed(2) + "%" : pctRead.toFixed(1) + "%";
+
   return (
     <div className="cr">
+      <style>{FONTS}</style>
       <style>{CSS}</style>
 
       <header className="cr-top">
@@ -1588,6 +1616,30 @@ export default function CrossReference() {
 
       {tab === "thread" ? (
         <>
+          <button className="cr-progress" onClick={() => setTab("trace")}>
+            <span className="cr-progress-row">
+              <span className="cr-plabel">Explored</span>
+              <span className="cr-pstat">
+                <b style={{ color: STAGES.scripture.color }}>{read.length.toLocaleString()}</b>
+                <span>verses</span>
+              </span>
+              <span className="cr-pstat">
+                <b style={{ color: STAGES.link.color }}>{chaptersRead}</b>
+                <span>chapters</span>
+              </span>
+              <span className="cr-pstat">
+                <b style={{ color: STAGES.history.color }}>{booksRead}</b>
+                <span>books</span>
+              </span>
+              <span className="cr-pct">
+                {pctLabel} <em>of the Bible</em>
+              </span>
+            </span>
+            <span className="cr-progress-bar">
+              <span className="cr-progress-fill" style={{ width: `${Math.min(100, Math.max(read.length ? 2 : 0, pctRead))}%` }} />
+            </span>
+          </button>
+
           <div className="cr-feed" ref={feed}>
             {status === "loading" ? (
               <div className="cr-cardwrap">
@@ -1660,15 +1712,18 @@ export default function CrossReference() {
           <p className="cr-sub">What you have read, and the threads you followed to get there.</p>
 
           <div className="cr-stats">
-            <div className="cr-statbox"><b>{read.length}</b><span>verses read</span></div>
             <div className="cr-statbox">
-              <b>{read.length ? (read.length < 31 ? ((read.length / BIBLE_VERSES) * 100).toFixed(3) : ((read.length / BIBLE_VERSES) * 100).toFixed(2)) : "0"}%</b>
-              <span>of the Bible</span>
+              <b style={{ color: STAGES.scripture.color }}>{read.length}</b><span>verses read</span>
             </div>
-            <div className="cr-statbox"><b>{new Set(read.map((r) => r.key.split(".")[0])).size}</b><span>books</span></div>
+            <div className="cr-statbox">
+              <b style={{ color: STAGES.link.color }}>{chaptersRead}</b><span>chapters</span>
+            </div>
+            <div className="cr-statbox">
+              <b style={{ color: STAGES.history.color }}>{booksRead}</b><span>books</span>
+            </div>
           </div>
           <p className="cr-sub" style={{ marginTop: -8 }}>
-            {read.length} of {BIBLE_VERSES.toLocaleString()} verses · {trail.length} steps walked
+            {pctLabel} of the Bible · {read.length} of {BIBLE_VERSES.toLocaleString()} verses · {trail.length} steps walked
           </p>
 
           <div className="cr-h2">Verses you finished</div>
