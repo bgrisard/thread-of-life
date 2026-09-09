@@ -559,16 +559,18 @@ const CSS = `
    so the same gesture carries you on to the next verse.
    ------------------------------------------------------------------ */
 /* ---- slim progress strip above the feed ---- */
-.cr-progress { flex: 0 0 auto; width: 100%; border: 0; border-bottom: 1px solid var(--rule); background: var(--card); padding: 10px 14px 11px; cursor: pointer; text-align: left; }
-.cr-progress-row { display: flex; align-items: baseline; gap: 12px; }
+.cr-progress { flex: 0 0 auto; width: 100%; border: 0; background: transparent; padding: 8px 12px 2px; cursor: pointer; text-align: left; }
+.cr-progress-row { display: flex; align-items: stretch; gap: 8px; }
+.cr-pcard { flex: 1; background: var(--card); border-radius: 12px; padding: 9px 10px 10px; box-shadow: 0 1px 2px rgba(20,19,15,.05); }
+.cr-pcard.cr-wide { flex: 1.3; }
+.cr-pcard-label { display: block; font-family: var(--sans) !important; font-size: 8.5px; font-weight: 600; letter-spacing: .13em; text-transform: uppercase; color: var(--faint); margin-bottom: 5px; }
 .cr-pstat { display: flex; align-items: baseline; gap: 5px; }
 .cr-pstat b { font-family: var(--sans) !important; font-size: 19px; font-weight: 700; line-height: 1; letter-spacing: -.02em; }
-.cr-pstat span { font-family: var(--sans) !important; font-size: 9.5px; letter-spacing: .13em; text-transform: uppercase; color: var(--faint); }
-.cr-pct { margin-left: auto; font-family: var(--sans) !important; font-size: 14px; font-weight: 700; color: #8A6516; white-space: nowrap; letter-spacing: -.01em; text-align: right; }
-.cr-pct em { font-style: normal; font-weight: 500; font-size: 9px; letter-spacing: .11em; text-transform: uppercase; color: var(--faint); display: block; margin-top: 2px; }
-.cr-plabel { font-family: var(--sans) !important; font-size: 9.5px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--faint); flex: 0 0 auto; }
-.cr-progress-bar { display: block; height: 7px; border-radius: 4px; background: #E8E6E0; overflow: hidden; margin-top: 9px; }
-.cr-progress-fill { display: block; height: 100%; border-radius: 4px; background: linear-gradient(90deg, #9B2C1E, #8A6516); transition: width .4s ease; }
+.cr-pstat span { font-family: var(--sans) !important; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); }
+.cr-pstats { display: flex; gap: 12px; }
+.cr-pct { font-family: var(--sans) !important; font-size: 19px; font-weight: 700; color: #8A6516; letter-spacing: -.02em; line-height: 1; }
+.cr-progress-bar { display: block; height: 5px; border-radius: 3px; background: #EAE8E2; overflow: hidden; margin-top: 8px; }
+.cr-progress-fill { display: block; height: 100%; border-radius: 3px; background: linear-gradient(90deg, #9B2C1E, #8A6516); transition: width .4s ease; }
 
 .cr-feed { flex: 1; overflow-y: auto; scroll-snap-type: y mandatory; overscroll-behavior-y: contain; -webkit-overflow-scrolling: touch; }
 .cr-cardwrap { height: 100%; scroll-snap-align: start; scroll-snap-stop: always; padding: 6px 12px 12px; }
@@ -578,20 +580,20 @@ const CSS = `
   box-shadow: 0 1px 2px rgba(20,19,15,.06), 0 8px 22px rgba(20,19,15,.05);
 }
 .cr-card-top { flex: 0 0 5px; background: var(--stage); transition: background .25s ease; }
-.cr-card-head { flex: 0 0 auto; display: flex; align-items: center; gap: 10px; padding: 13px 16px 0; }
-.cr-stage { font-family: var(--sans) !important; display: inline-flex; align-items: center; gap: 7px; background: var(--wash); color: var(--stage); border-radius: 999px; padding: 6px 12px; font-size: 12.5px; font-weight: 500; }
+.cr-card-head { flex: 0 0 auto; display: flex; align-items: center; gap: 10px; padding: 13px 16px 0; background: var(--card); }
+.cr-stage { font-family: var(--sans) !important; display: inline-flex; align-items: center; gap: 7px; background: var(--wash); border: 1px solid var(--stage); color: var(--stage); border-radius: 999px; padding: 6px 12px; font-size: 12.5px; font-weight: 500; }
 .cr-stage span.dot { width: 6px; height: 6px; border-radius: 50%; background: var(--stage); flex: 0 0 6px; }
 .cr-count { margin-left: auto; font-family: var(--mono) !important; font-size: 11.5px; color: var(--faint); white-space: nowrap; }
-.cr-seg { flex: 0 0 auto; display: flex; gap: 4px; padding: 11px 16px 12px; }
+.cr-seg { flex: 0 0 auto; display: flex; gap: 4px; padding: 11px 16px 12px; background: var(--card); border-bottom: 1px solid var(--rule); }
 .cr-seg i { flex: 1; height: 3px; border-radius: 2px; background: #EDEBE5; transition: background .2s ease; }
 
 /* the inner scroller — one step per screen */
-.cr-pages { flex: 1 1 auto; min-height: 0; overflow-y: auto; scroll-snap-type: y mandatory; overscroll-behavior-y: auto; -webkit-overflow-scrolling: touch; }
+.cr-pages { background: var(--wash); transition: background .25s ease; flex: 1 1 auto; min-height: 0; overflow-y: auto; scroll-snap-type: y mandatory; overscroll-behavior-y: auto; -webkit-overflow-scrolling: touch; }
 .cr-page { position: relative; min-height: 100%; scroll-snap-align: start; scroll-snap-stop: always; display: flex; padding: 0 16px 0 0; }
 .cr-rail { position: absolute; left: 20px; top: 0; bottom: 0; width: 5px; border-radius: 3px; background: var(--stage); opacity: .3; }
 .cr-page[data-first="true"] .cr-rail { top: 28px; }
 .cr-page[data-last="true"] .cr-rail { bottom: auto; height: 28px; }
-.cr-node { position: absolute; left: 14px; top: 22px; width: 17px; height: 17px; border-radius: 50%; background: var(--stage); box-shadow: 0 0 0 5px var(--card); z-index: 2; }
+.cr-node { position: absolute; left: 14px; top: 22px; width: 17px; height: 17px; border-radius: 50%; background: var(--stage); box-shadow: 0 0 0 5px var(--wash); z-index: 2; }
 .cr-page-inner { flex: 1; min-width: 0; margin-left: 48px; padding: 16px 0 26px; display: flex; flex-direction: column; }
 .cr-now { font-family: var(--display); font-size: 23px; font-weight: 600; line-height: 1.22; letter-spacing: -.01em; }
 .cr-ctx { font-family: var(--sans) !important; font-size: 11.5px; line-height: 1.45; color: var(--soft); margin-top: 5px; padding-bottom: 14px; }
@@ -603,8 +605,7 @@ const CSS = `
 /* ---- card title: fixed while the steps scroll beneath it ---- */
 .cr-title {
   flex: 0 0 auto; display: flex; align-items: baseline; gap: 8px;
-  padding: 12px 16px 11px; background: var(--wash); border-bottom: 1px solid var(--rule);
-  transition: background .25s ease;
+  padding: 12px 16px 11px; background: var(--card); border-bottom: 1px solid var(--rule);
 }
 .cr-title-kicker { font-family: var(--sans) !important; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--stage); opacity: .9; flex: 0 0 auto; }
 .cr-title-ref { font-family: var(--display); font-weight: 600; font-size: 18px; line-height: 1.2; color: var(--ink); flex: 1; min-width: 0; }
@@ -623,23 +624,23 @@ const CSS = `
 .cr-label { font-size: 18px; color: var(--faint); margin: 18px 0 8px; }
 .cr-list { margin: 0 0 14px; padding-left: 20px; }
 .cr-list li { margin-bottom: 8px; }
-.cr-commentary { border-left: 2px solid var(--stage); padding-left: 15px; }
+.cr-commentary { border-left: 3px solid var(--stage); padding-left: 15px; }
 .cr-heading { margin-bottom: 10px; }
 .cr-held { border: 1px dashed var(--stage); border-radius: 10px; padding: 13px 15px; margin-top: 16px; }
 .cr-held h4 { font-family: var(--mono) !important; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--stage); margin: 0 0 8px; font-weight: 400; }
 
 /* ---- connection-kind chip: filled, coloured, unmissable ---- */
 .cr-kind {
-  display: inline-block; font-family: var(--sans) !important; font-size: 12px; font-weight: 600;
+  display: inline-block; background: var(--card); font-family: var(--sans) !important; font-size: 12px; font-weight: 600;
   letter-spacing: .06em; text-transform: uppercase; line-height: 1;
   border: 1px solid; border-radius: 6px; padding: 7px 11px; margin-bottom: 14px;
 }
 
 /* ---- buttons ---- */
 .cr-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 20px; }
-.cr-actions button { font-family: var(--sans) !important; font-size: 13px; padding: 11px 6px; border-radius: 10px; border: 1px solid var(--rule); background: transparent; color: var(--ink); cursor: pointer; }
+.cr-actions button { font-family: var(--sans) !important; font-size: 13px; padding: 11px 6px; border-radius: 10px; border: 1px solid var(--rule); background: var(--card); color: var(--ink); cursor: pointer; }
 .cr-actions button[data-on="true"] { border-color: var(--stage); color: var(--stage); background: var(--wash); }
-.cr-btn { font-family: var(--sans) !important; font-size: 14px; padding: 12px 18px; border-radius: 10px; border: 1px solid var(--rule); background: transparent; color: var(--ink); cursor: pointer; text-decoration: none; display: inline-block; }
+.cr-btn { font-family: var(--sans) !important; font-size: 14px; padding: 12px 18px; border-radius: 10px; border: 1px solid var(--rule); background: var(--card); color: var(--ink); cursor: pointer; text-decoration: none; display: inline-block; }
 .cr-btn.cr-solid { background: var(--stage); color: #fff; border-color: var(--stage); font-weight: 500; }
 .cr-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
 
@@ -759,6 +760,9 @@ function Foot({ status, children }) {
 const Source = ({ children }) => <div className="cr-srctext">{children}</div>;
 
 function NoteError({ error }) {
+  // The missing-key case is expected while the written steps are unfinished;
+  // showing it on every cross-reference card is noise. Render nothing.
+  if (String(error).includes("NO_KEY")) return null;
   if (String(error).includes("BUSY"))
     return (
       <p className="cr-body cr-quiet">
@@ -1365,6 +1369,19 @@ const todayAnchor = () => {
   return { book: a[0], chapter: a[1], verse: a[2] };
 };
 
+/** Pick a starting verse the reader has not finished before. Walks the anchor
+ *  list from today's slot so the choice still varies by day, then falls back to
+ *  today's anchor once every one of them has been read. */
+function freshAnchor(readKeys) {
+  const start = dayIndex() % ANCHORS.length;
+  for (let i = 0; i < ANCHORS.length; i++) {
+    const a = ANCHORS[(start + i) % ANCHORS.length];
+    const ref = { book: a[0], chapter: a[1], verse: a[2] };
+    if (!readKeys.has(refKey(ref))) return ref;
+  }
+  return todayAnchor();
+}
+
 let uid = 0;
 const nextId = () => `c${++uid}`;
 
@@ -1530,8 +1547,14 @@ export default function CrossReference() {
     loadIndex().then((i) => live && setLib(i)).catch(() => {});
     storeGet("cr_saved", []).then((s) => live && setSaved(s));
     storeGet("cr_trail", []).then((t) => live && setTrail(t));
-    storeGet("cr_read", []).then((r) => live && setRead(r));
-    startThread(todayAnchor());
+
+    // Progress has to land before the first thread is drawn, or the app would
+    // open on a verse already finished in an earlier session.
+    storeGet("cr_read", []).then((r) => {
+      if (!live) return;
+      setRead(r);
+      startThread(freshAnchor(new Set(r.map((x) => x.key))));
+    });
     return () => { live = false; };
   }, []);
 
@@ -1580,6 +1603,14 @@ export default function CrossReference() {
     );
   }, []);
 
+  // Coming back to the thread from another tab lands on something unread —
+  // but never discards a card that is still in progress.
+  useEffect(() => {
+    if (tab !== "thread" || status !== "ready" || !cards.length) return;
+    const keys = new Set(read.map((x) => x.key));
+    if (keys.has(refKey(cards[0].ref))) startThread(freshAnchor(keys));
+  }, [tab]);
+
   const onFollow = (ref) => {
     setTab("thread");
     startThread({ book: ref.book, chapter: ref.chapter, verse: ref.verse });
@@ -1618,25 +1649,30 @@ export default function CrossReference() {
         <>
           <button className="cr-progress" onClick={() => setTab("trace")}>
             <span className="cr-progress-row">
-              <span className="cr-plabel">Explored</span>
-              <span className="cr-pstat">
-                <b style={{ color: STAGES.scripture.color }}>{read.length.toLocaleString()}</b>
-                <span>verses</span>
+              <span className="cr-pcard cr-wide">
+                <span className="cr-pcard-label">Explored</span>
+                <span className="cr-pstats">
+                  <span className="cr-pstat">
+                    <b style={{ color: STAGES.scripture.color }}>{read.length.toLocaleString()}</b>
+                    <span>verses</span>
+                  </span>
+                  <span className="cr-pstat">
+                    <b style={{ color: STAGES.link.color }}>{chaptersRead}</b>
+                    <span>ch</span>
+                  </span>
+                  <span className="cr-pstat">
+                    <b style={{ color: STAGES.history.color }}>{booksRead}</b>
+                    <span>books</span>
+                  </span>
+                </span>
               </span>
-              <span className="cr-pstat">
-                <b style={{ color: STAGES.link.color }}>{chaptersRead}</b>
-                <span>chapters</span>
+              <span className="cr-pcard">
+                <span className="cr-pcard-label">Of the Bible</span>
+                <span className="cr-pct">{pctLabel}</span>
+                <span className="cr-progress-bar">
+                  <span className="cr-progress-fill" style={{ width: `${Math.min(100, Math.max(read.length ? 3 : 0, pctRead))}%` }} />
+                </span>
               </span>
-              <span className="cr-pstat">
-                <b style={{ color: STAGES.history.color }}>{booksRead}</b>
-                <span>books</span>
-              </span>
-              <span className="cr-pct">
-                {pctLabel} <em>of the Bible</em>
-              </span>
-            </span>
-            <span className="cr-progress-bar">
-              <span className="cr-progress-fill" style={{ width: `${Math.min(100, Math.max(read.length ? 2 : 0, pctRead))}%` }} />
             </span>
           </button>
 
@@ -1675,7 +1711,7 @@ export default function CrossReference() {
                         <div className="cr-ctx">{errMsg}</div>
                         <div className="cr-page-body">
                           <div className="cr-row">
-                            <button className="cr-btn cr-solid" onClick={() => startThread(todayAnchor())}>Try again</button>
+                            <button className="cr-btn cr-solid" onClick={() => startThread(freshAnchor(new Set(read.map((x) => x.key))))}>Try again</button>
                           </div>
                         </div>
                       </div>
