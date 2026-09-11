@@ -545,7 +545,7 @@ const CSS = `
 
 /* ---- app chrome ---- */
 .cr-top { flex: 0 0 auto; display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: var(--ink); color: #fff; }
-.cr-wordmark { font-family: var(--display); font-size: 19px; font-weight: 600; letter-spacing: -.01em; }
+.cr-wordmark { font-family: var(--display); font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
 .cr-spacer { flex: 1; }
 .cr-tp { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; padding: 6px 11px; border-radius: 999px; border: 1px solid rgba(255,255,255,.26); background: transparent; color: #fff; cursor: pointer; }
 
@@ -565,10 +565,10 @@ const CSS = `
 .cr-pcard.cr-wide { flex: 1.3; }
 .cr-pcard-label { display: block; font-family: var(--sans) !important; font-size: 8.5px; font-weight: 600; letter-spacing: .13em; text-transform: uppercase; color: var(--faint); margin-bottom: 5px; }
 .cr-pstat { display: flex; align-items: baseline; gap: 5px; }
-.cr-pstat b { font-family: var(--sans) !important; font-size: 19px; font-weight: 700; line-height: 1; letter-spacing: -.02em; }
+.cr-pstat b { font-family: var(--sans) !important; font-size: 17px; font-weight: 700; line-height: 1; letter-spacing: -.02em; }
 .cr-pstat span { font-family: var(--sans) !important; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); }
 .cr-pstats { display: flex; gap: 12px; }
-.cr-pct { font-family: var(--sans) !important; font-size: 19px; font-weight: 700; color: #8A6516; letter-spacing: -.02em; line-height: 1; }
+.cr-pct { font-family: var(--sans) !important; font-size: 17px; font-weight: 700; color: #8A6516; letter-spacing: -.02em; line-height: 1; }
 .cr-progress-bar { display: block; height: 5px; border-radius: 3px; background: #EAE8E2; overflow: hidden; margin-top: 8px; }
 .cr-progress-fill { display: block; height: 100%; border-radius: 3px; background: linear-gradient(90deg, #9B2C1E, #8A6516); transition: width .4s ease; }
 
@@ -581,25 +581,32 @@ const CSS = `
 }
 .cr-card-top { flex: 0 0 5px; background: var(--stage); transition: background .25s ease; }
 .cr-card-head { flex: 0 0 auto; display: flex; align-items: center; gap: 10px; padding: 13px 16px 0; background: var(--card); }
-.cr-stage { font-family: var(--sans) !important; display: inline-flex; align-items: center; gap: 7px; background: var(--wash); border: 1px solid var(--stage); color: var(--stage); border-radius: 999px; padding: 6px 12px; font-size: 12.5px; font-weight: 500; }
+.cr-stage { font-family: var(--sans) !important; display: inline-flex; align-items: center; gap: 7px; background: var(--wash); color: var(--stage); border-radius: 999px; padding: 5px 11px; font-size: 12px; font-weight: 600; }
 .cr-stage span.dot { width: 6px; height: 6px; border-radius: 50%; background: var(--stage); flex: 0 0 6px; }
 .cr-count { margin-left: auto; font-family: var(--mono) !important; font-size: 11.5px; color: var(--faint); white-space: nowrap; }
 .cr-seg { flex: 0 0 auto; display: flex; gap: 4px; padding: 11px 16px 12px; background: var(--card); border-bottom: 1px solid var(--rule); }
 .cr-seg i { flex: 1; height: 3px; border-radius: 2px; background: #EDEBE5; transition: background .2s ease; }
 
 /* the inner scroller — one step per screen */
-.cr-pages { background: var(--wash); transition: background .25s ease; flex: 1 1 auto; min-height: 0; overflow-y: auto; scroll-snap-type: y mandatory; overscroll-behavior-y: auto; -webkit-overflow-scrolling: touch; }
-.cr-page { position: relative; min-height: 100%; scroll-snap-align: start; scroll-snap-stop: always; display: flex; padding: 0 16px 0 0; }
-.cr-rail { position: absolute; left: 20px; top: 0; bottom: 0; width: 5px; border-radius: 3px; background: var(--stage); opacity: .3; }
-.cr-page[data-first="true"] .cr-rail { top: 28px; }
-.cr-page[data-last="true"] .cr-rail { bottom: auto; height: 28px; }
-.cr-node { position: absolute; left: 14px; top: 22px; width: 17px; height: 17px; border-radius: 50%; background: var(--stage); box-shadow: 0 0 0 5px var(--wash); z-index: 2; }
-.cr-page-inner { flex: 1; min-width: 0; margin-left: 48px; padding: 16px 0 26px; display: flex; flex-direction: column; }
-.cr-now { font-family: var(--display); font-size: 23px; font-weight: 600; line-height: 1.22; letter-spacing: -.01em; }
-.cr-ctx { font-family: var(--sans) !important; font-size: 11.5px; line-height: 1.45; color: var(--soft); margin-top: 5px; padding-bottom: 14px; }
+.cr-pages { background: var(--paper); flex: 1 1 auto; min-height: 0; overflow-y: auto; scroll-snap-type: y mandatory; overscroll-behavior-y: auto; -webkit-overflow-scrolling: touch; }
+.cr-page { position: relative; min-height: 100%; scroll-snap-align: start; scroll-snap-stop: always; display: flex; padding: 12px 12px 16px 0; }
+
+/* each step is its own card, headed in that step's colour */
+.cr-inner { flex: 1; min-width: 0; display: flex; flex-direction: column; background: var(--card); border-radius: 14px; overflow: hidden; box-shadow: 0 1px 2px rgba(20,19,15,.06), 0 6px 18px rgba(20,19,15,.06); }
+.cr-innerhead { flex: 0 0 auto; display: flex; align-items: center; gap: 8px; padding: 11px 15px; background: var(--stage); color: #fff; }
+.cr-innerhead b { font-family: var(--sans) !important; font-size: 11.5px; font-weight: 600; letter-spacing: .02em; }
+.cr-innerhead i { margin-left: auto; font-family: var(--mono) !important; font-style: normal; font-size: 10px; opacity: .8; }
+.cr-innerbody { flex: 1 1 auto; padding: 16px 15px 22px; display: flex; flex-direction: column; }
+.cr-rail { position: absolute; left: 18px; top: 0; bottom: 0; width: 5px; border-radius: 3px; background: var(--stage); opacity: .32; }
+.cr-page[data-first="true"] .cr-rail { top: 34px; }
+.cr-page[data-last="true"] .cr-rail { bottom: auto; height: 34px; }
+.cr-node { position: absolute; left: 12px; top: 28px; width: 17px; height: 17px; border-radius: 50%; background: var(--stage); box-shadow: 0 0 0 5px var(--paper); z-index: 2; }
+.cr-page > .cr-inner { margin-left: 46px; }
+.cr-now { font-family: var(--display); font-size: 20px; font-weight: 600; line-height: 1.22; letter-spacing: -.01em; }
+.cr-ctx { font-family: var(--sans) !important; font-size: 11px; line-height: 1.45; color: var(--soft); margin-top: 5px; padding-bottom: 14px; }
 .cr-ctx b { color: var(--stage); font-weight: 500; }
-.cr-page-body { flex: 1 1 auto; }
-.cr-scrollcue { flex: 0 0 auto; margin-top: 20px; font-family: var(--sans) !important; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); }
+.cr-stepbody { flex: 1 1 auto; }
+.cr-scrollcue { flex: 0 0 auto; margin-top: 18px; font-family: var(--sans) !important; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); }
 .cr-scrollcue[data-end="true"] { color: var(--stage); }
 
 /* ---- card title: fixed while the steps scroll beneath it ---- */
@@ -607,21 +614,21 @@ const CSS = `
   flex: 0 0 auto; display: flex; align-items: baseline; gap: 8px;
   padding: 12px 16px 11px; background: var(--card); border-bottom: 1px solid var(--rule);
 }
-.cr-title-kicker { font-family: var(--sans) !important; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--stage); opacity: .9; flex: 0 0 auto; }
-.cr-title-ref { font-family: var(--display); font-weight: 600; font-size: 18px; line-height: 1.2; color: var(--ink); flex: 1; min-width: 0; }
+.cr-title-kicker { font-family: var(--sans) !important; font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--stage); opacity: .9; flex: 0 0 auto; }
+.cr-title-ref { font-family: var(--display); font-weight: 600; font-size: 16px; line-height: 1.2; color: var(--ink); flex: 1; min-width: 0; }
 .cr-title-step { font-family: var(--mono) !important; font-size: 10px; color: var(--faint); flex: 0 0 auto; }
 
 /* ---- ONE type size for every word of content. Only red letters differ. ---- */
-.cr-page-body, .cr-page-body * { font-family: var(--serif); }
+.cr-innerbody, .cr-innerbody * { font-family: var(--serif); }
 .cr-scripture, .cr-body, .cr-lede, .cr-commentary, .cr-list li, .cr-heading, .cr-ref {
-  font-size: 18px; line-height: 1.58; color: var(--ink); margin: 0 0 14px;
+  font-size: 16.5px; line-height: 1.6; color: var(--ink); margin: 0 0 14px;
 }
 .cr-scripture { margin-bottom: 0; }
 .cr-body.cr-quiet, .cr-list li, .cr-heading, .cr-ref { color: var(--soft); }
 .cr-ref { margin-top: 12px; }
-.cr-vn { font-size: 18px; color: var(--faint); margin-right: 5px; }
+.cr-vn { font-size: 16.5px; color: var(--faint); margin-right: 5px; }
 .cr-red { color: #9B2C1E; }
-.cr-label { font-size: 18px; color: var(--faint); margin: 18px 0 8px; }
+.cr-label { font-size: 16.5px; color: var(--faint); margin: 18px 0 8px; }
 .cr-list { margin: 0 0 14px; padding-left: 20px; }
 .cr-list li { margin-bottom: 8px; }
 .cr-commentary { border-left: 3px solid var(--stage); padding-left: 15px; }
@@ -631,27 +638,27 @@ const CSS = `
 
 /* ---- connection-kind chip: filled, coloured, unmissable ---- */
 .cr-kind {
-  display: inline-block; background: var(--card); font-family: var(--sans) !important; font-size: 12px; font-weight: 600;
+  display: inline-block; font-family: var(--sans) !important; font-size: 11px; font-weight: 600;
   letter-spacing: .06em; text-transform: uppercase; line-height: 1;
   border: 1px solid; border-radius: 6px; padding: 7px 11px; margin-bottom: 14px;
 }
 
 /* ---- buttons ---- */
 .cr-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 20px; }
-.cr-actions button { font-family: var(--sans) !important; font-size: 13px; padding: 11px 6px; border-radius: 10px; border: 1px solid var(--rule); background: var(--card); color: var(--ink); cursor: pointer; }
+.cr-actions button { font-family: var(--sans) !important; font-size: 12px; padding: 10px 6px; border-radius: 10px; border: 1px solid var(--rule); background: transparent; color: var(--ink); cursor: pointer; }
 .cr-actions button[data-on="true"] { border-color: var(--stage); color: var(--stage); background: var(--wash); }
-.cr-btn { font-family: var(--sans) !important; font-size: 14px; padding: 12px 18px; border-radius: 10px; border: 1px solid var(--rule); background: var(--card); color: var(--ink); cursor: pointer; text-decoration: none; display: inline-block; }
+.cr-btn { font-family: var(--sans) !important; font-size: 13px; padding: 10px 16px; border-radius: 10px; border: 1px solid var(--rule); background: transparent; color: var(--ink); cursor: pointer; text-decoration: none; display: inline-block; }
 .cr-btn.cr-solid { background: var(--stage); color: #fff; border-color: var(--stage); font-weight: 500; }
 .cr-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
 
 /* ---- one compact meta line, then a collapsed source note ---- */
 .cr-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 20px; padding-top: 12px; border-top: 1px solid var(--rule); }
-.cr-stat { font-family: var(--mono) !important; font-size: 10px; letter-spacing: .04em; text-transform: uppercase; border: 1px solid var(--rule); border-radius: 5px; padding: 4px 8px; color: var(--faint); white-space: nowrap; }
+.cr-stat { font-family: var(--mono) !important; font-size: 9.5px; letter-spacing: .04em; text-transform: uppercase; border: 1px solid var(--rule); border-radius: 5px; padding: 4px 8px; color: var(--faint); white-space: nowrap; }
 .cr-stat[data-s="ok"] { color: #3F6B4E; border-color: #C9DDD0; background: #F3F8F4; }
 .cr-stat[data-s="load"] { color: var(--soft); }
 .cr-stat[data-s="fail"] { color: #9B2C1E; border-color: #E0BEB8; background: #FCF4F2; }
 .cr-srcbtn { margin-left: auto; font-family: var(--mono) !important; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); background: none; border: 0; padding: 4px 0; cursor: pointer; }
-.cr-srctext { font-family: var(--mono) !important; font-size: 10.5px; line-height: 1.6; color: var(--faint); margin-top: 10px; }
+.cr-srctext { font-family: var(--mono) !important; font-size: 10px; line-height: 1.6; color: var(--faint); margin-top: 10px; }
 
 .cr-skel { height: 13px; border-radius: 3px; background: linear-gradient(90deg,#ECEAE4,#F6F5F0,#ECEAE4); background-size: 200% 100%; animation: crsh 1.3s ease-in-out infinite; margin-bottom: 9px; }
 @keyframes crsh { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
@@ -659,28 +666,28 @@ const CSS = `
 
 /* ---- nav ---- */
 .cr-nav { flex: 0 0 auto; display: flex; border-top: 1px solid var(--rule); background: rgba(241,241,243,.96); backdrop-filter: blur(12px); padding-bottom: env(safe-area-inset-bottom); }
-.cr-nav button { flex: 1; border: 0; background: transparent; padding: 9px 2px 11px; cursor: pointer; font-family: var(--sans); font-size: 9.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.cr-nav button { flex: 1; border: 0; background: transparent; padding: 9px 2px 11px; cursor: pointer; font-family: var(--sans); font-size: 9px; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .cr-nav button[data-on="true"] { color: var(--ink); }
 .cr-glyph { font-family: var(--mono); font-size: 14px; line-height: 1; }
 
 /* ---- panes ---- */
 .cr-pane { flex: 1; overflow-y: auto; padding: 20px 18px 36px; }
-.cr-h1 { font-family: var(--display); font-size: 26px; font-weight: 600; margin: 0 0 4px; letter-spacing: -.01em; }
-.cr-sub { font-size: 13px; color: var(--soft); margin: 0 0 20px; line-height: 1.55; }
+.cr-h1 { font-family: var(--display); font-size: 23px; font-weight: 600; margin: 0 0 4px; letter-spacing: -.01em; }
+.cr-sub { font-size: 12.5px; color: var(--soft); margin: 0 0 20px; line-height: 1.55; }
 .cr-h2 { font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--faint); margin: 22px 0 9px; }
 .cr-tile { background: var(--card); border-radius: 12px; padding: 13px 14px; margin-bottom: 8px; }
 .cr-tile-top { display: flex; align-items: baseline; gap: 8px; }
-.cr-tile-ref { font-family: var(--mono); font-size: 13.5px; color: var(--ink); background: none; border: 0; padding: 0; cursor: pointer; }
+.cr-tile-ref { font-family: var(--mono); font-size: 12.5px; color: var(--ink); background: none; border: 0; padding: 0; cursor: pointer; }
 .cr-tile-meta { margin-left: auto; font-family: var(--mono); font-size: 10px; color: var(--faint); }
-.cr-tile-text { font-family: var(--serif); font-size: 14.5px; line-height: 1.5; color: var(--soft); margin-top: 6px; }
+.cr-tile-text { font-family: var(--serif); font-size: 13.5px; line-height: 1.5; color: var(--soft); margin-top: 6px; }
 .cr-badge { display: inline-block; font-family: var(--mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; border-radius: 3px; padding: 2px 6px; margin-top: 8px; }
 .cr-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 18px; }
 .cr-statbox { background: var(--card); border-radius: 12px; padding: 12px 10px; text-align: center; }
-.cr-statbox b { display: block; font-family: var(--display); font-size: 26px; font-weight: 600; }
+.cr-statbox b { display: block; font-family: var(--display); font-size: 23px; font-weight: 600; }
 .cr-statbox span { font-family: var(--mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); }
 .cr-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(60px,1fr)); gap: 6px; }
 .cr-grid button { font-family: var(--mono); font-size: 12px; padding: 9px 4px; border-radius: 6px; border: 1px solid var(--rule); background: var(--card); cursor: pointer; color: var(--ink); }
-.cr-booklist button { display: block; width: 100%; text-align: left; padding: 11px 12px; border: 0; border-bottom: 1px solid var(--rule); background: transparent; cursor: pointer; font-family: var(--serif); font-size: 17px; color: var(--ink); }
+.cr-booklist button { display: block; width: 100%; text-align: left; padding: 10px 12px; border: 0; border-bottom: 1px solid var(--rule); background: transparent; cursor: pointer; font-family: var(--serif); font-size: 15.5px; color: var(--ink); }
 .cr-booklist button s { font-family: var(--mono); font-size: 11px; color: var(--faint); float: right; text-decoration: none; }
 .cr-sheet-bg { position: fixed; inset: 0; background: rgba(20,19,15,.36); z-index: 40; display: flex; align-items: flex-end; }
 .cr-sheet { width: 100%; max-height: 86%; overflow-y: auto; background: var(--paper); border-radius: 18px 18px 0 0; padding: 16px 18px calc(26px + env(safe-area-inset-bottom)); }
@@ -1109,10 +1116,6 @@ function Card({ card, first, translation, onFollow, onOpenChapter, onAsk, onSave
           <span className="cr-title-ref">{anchor}</span>
           <span className="cr-title-step">verse {card.step}</span>
         </div>
-        <div className="cr-card-head">
-          <span className="cr-stage"><span className="dot" />{stage.label}</span>
-          <span className="cr-count">{idx + 1} / {steps.length}</span>
-        </div>
         <div className="cr-seg">
           {steps.map((sx, k) => (
             <i key={k} style={{ background: k <= idx ? STAGES[sx.kind].color : undefined, opacity: k === idx ? 1 : k < idx ? 0.4 : 1 }} />
@@ -1133,19 +1136,18 @@ function Card({ card, first, translation, onFollow, onOpenChapter, onAsk, onSave
               >
                 <span className="cr-rail" />
                 <span className="cr-node" />
-                <div className="cr-page-inner">
-                  <div className="cr-now">{st.now}</div>
-                  <div className="cr-ctx">{ctx(st)}</div>
-                  <div className="cr-page-body">{body(st, i)}</div>
-                  {last ? (
-                    <div className="cr-row">
-                      <button className="cr-btn cr-solid" onClick={() => onNextCard?.(wrap.current)}>
-                        Next verse ↓
-                      </button>
+                <div className="cr-inner">
+                  <div className="cr-innerhead">
+                    <b>{sc.label}</b>
+                    <i>{i + 1} / {steps.length}</i>
+                  </div>
+                  <div className="cr-innerbody">
+                    <div className="cr-now">{st.now}</div>
+                    <div className="cr-ctx">{ctx(st)}</div>
+                    <div className="cr-stepbody">{body(st, i)}</div>
+                    <div className="cr-scrollcue" data-end={last ? "true" : "false"}>
+                      {last ? `End of ${anchor}` : "Scroll ↓"}
                     </div>
-                  ) : null}
-                  <div className="cr-scrollcue" data-end={last ? "true" : "false"}>
-                    {last ? `End of ${anchor}` : "Scroll ↓"}
                   </div>
                 </div>
               </section>
